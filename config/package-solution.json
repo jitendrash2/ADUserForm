@@ -1,0 +1,62 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "ad-user-form-client-side-solution",
+    "id": "617b8a66-e0e0-4ac6-b3de-ecb4d32ac222",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.21.1"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "ADUserForm description"
+      },
+      "longDescription": {
+        "default": "ADUserForm description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "ad-user-form Feature",
+        "description": "The feature that activates elements of the ad-user-form solution.",
+        "id": "06ab3db3-9b34-4b16-a072-4c164e1bb615",
+        "version": "1.0.0.0"
+      }
+    ],
+   "webApiPermissionRequests": [
+  {
+    "resource": "Microsoft Graph",
+    "scope": "User.ReadWrite.All"
+  },
+  {
+    "resource": "Microsoft Graph",
+    "scope": "Directory.ReadWrite.All"
+  },
+  {
+    "resource": "Microsoft Graph",
+    "scope": "Organization.Read.All"
+  },
+  {
+    "resource": "Microsoft Graph",
+    "scope": "Directory.Read.All"
+  },
+  {
+    "resource": "Microsoft Graph",
+    "scope": "Directory.AccessAsUser.All"
+  }
+]
+  },
+  "paths": {
+    "zippedPackage": "solution/ad-user-form.sppkg"
+  }
+}

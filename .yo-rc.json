@@ -1,0 +1,18 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "22.19.0",
+    "sdksVersions": {},
+    "version": "1.21.1",
+    "libraryName": "ad-user-form",
+    "libraryId": "617b8a66-e0e0-4ac6-b3de-ecb4d32ac222",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "ADUserForm",
+    "solutionShortDescription": "ADUserForm description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}
