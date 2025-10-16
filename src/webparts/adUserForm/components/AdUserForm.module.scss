@@ -1,0 +1,172 @@
+.card {
+  background-color: var(--neutralLighter);
+  color: var(--neutralPrimary);
+  border-radius: 10px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  padding: 32px;
+  max-width: 900px;
+  margin: 40px auto;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.headerRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.header {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.errorBox {
+  background-color: #fde7e9;
+  color: #a4262c;
+  border-left: 4px solid #d83b01;
+  padding: 10px 16px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.avatarSection {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.personaWrapper {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid var(--themePrimary);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.personaWrapper:hover {
+  transform: scale(1.05);
+}
+
+.cameraOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.personaWrapper:hover .cameraOverlay {
+  opacity: 1;
+}
+
+.cameraIcon {
+  font-size: 16px;
+}
+
+.photoLabel {
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.hiddenInput {
+  display: none;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px 24px;
+  margin-bottom: 20px;
+}
+
+.passwordField {
+  position: relative;
+
+  /* make sure internal wrapper has room for icon */
+  .ms-TextField-fieldGroup {
+    position: relative !important;
+  }
+
+  /* prevent text from going under the icon */
+  .ms-TextField-field {
+    padding-right: 40px !important;
+  }
+}
+
+/* 👁️ Align perfectly inside input */
+.eyeIcon {
+  position: absolute;
+  right: 12px;
+  top: calc(50% + 8px); /* adjusts for label spacing in FluentUI */
+  transform: translateY(-50%);
+  background: none !important;
+  border: none !important;
+  color: var(--neutralPrimary);
+  cursor: pointer;
+  z-index: 3;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 24px;
+  width: 24px;
+  pointer-events: auto;
+}
+
+.eyeIcon:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+
+
+
+
+.sectionLabel {
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 16px;
+}
+
+.licenseRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  align-items: center;
+}
+
+.buttonRow {
+  margin-top: 32px;
+}
+
+.spinnerContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Dark mode */
+:global(.ms-Fabric.is-darkTheme) .card {
+  background-color: var(--neutralLighterAlt);
+  color: var(--neutralPrimaryAlt);
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .formGrid,
+  .licenseRow {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 20px;
+  }
+}

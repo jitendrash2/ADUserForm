@@ -1,0 +1,18 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
+  "version": "2.0",
+  "bundles": {
+    "ad-user-form-web-part": {
+      "components": [
+        {
+          "entrypoint": "./lib/webparts/adUserForm/AdUserFormWebPart.js",
+          "manifest": "./src/webparts/adUserForm/AdUserFormWebPart.manifest.json"
+        }
+      ]
+    }
+  },
+  "externals": {},
+  "localizedResources": {
+    "AdUserFormWebPartStrings": "lib/webparts/adUserForm/loc/{locale}.js"
+  }
+}
