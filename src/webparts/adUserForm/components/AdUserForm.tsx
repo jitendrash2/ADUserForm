@@ -68,14 +68,12 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
   const [usernameAvailable, setUsernameAvailable] = React.useState<null | boolean>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  // Fetch tenant info + licenses
+  // 🧩 Fetch tenant info + available licenses
   React.useEffect(() => {
     const fetchLicensesAndDomain = async () => {
       try {
         const orgResponse = await graphClient.api("/organization").get();
-        const domain =
-          orgResponse.value[0].verifiedDomains.find((d: any) => d.isDefault)?.name ||
-          "sj30b.onmicrosoft.com";
+        const domain = orgResponse.value[0].verifiedDomains.find((d: any) => d.isDefault)?.name || "sj30b.onmicrosoft.com";
         setVerifiedDomain(domain);
 
         const licenseResponse = await graphClient.api("/subscribedSkus").get();
@@ -84,16 +82,11 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
         );
 
         const options = activeLicenses.map((sku: any) => {
-          const friendlyName =
-            friendlyNameMap[sku.skuPartNumber] ||
-            sku.skuPartNumber.replace(/_/g, " ");
+          const friendlyName = friendlyNameMap[sku.skuPartNumber] || sku.skuPartNumber.replace(/_/g, " ");
           const total = sku.prepaidUnits.enabled;
           const consumed = sku.consumedUnits;
           const available = total - consumed;
-          const availableText =
-            total > 0
-              ? `${available} of ${total} available`
-              : "Unlimited available";
+          const availableText = total > 0 ? `${available} of ${total} available` : "Unlimited available";
 
           return {
             key: sku.skuId,
@@ -104,13 +97,13 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
         setLicenseOptions(options);
       } catch (err) {
         console.error("Fetch failed:", err);
-        setError("Failed to load licenses or tenant info. Ensure Graph API permissions are granted.");
+        setError("Failed to load tenant info or licenses. Ensure Graph permissions are granted.");
       }
     };
     fetchLicensesAndDomain();
   }, [graphClient]);
 
-  // Suggest username
+  // Auto-suggest username
   React.useEffect(() => {
     if (formData.firstName && formData.lastName) {
       const suggestion = (formData.firstName[0] + formData.lastName)
@@ -120,7 +113,7 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
     }
   }, [formData.firstName, formData.lastName]);
 
-  // Runtime check: username availability
+  // Check username availability runtime
   React.useEffect(() => {
     const checkUser = async () => {
       if (!formData.username) return;
@@ -136,13 +129,13 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
     return () => clearTimeout(delay);
   }, [formData.username, verifiedDomain]);
 
-  // Password validation
+  // Password strength check
   const validatePassword = (password: string) => {
-    const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
-    const mediumRegex = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
+    const strong = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z\d]).{8,}$/;
+    const medium = /^(?=.*[A-Z])(?=.*\d).{6,}$/;
     if (!password) return { label: "", color: "" };
-    if (strongRegex.test(password)) return { label: "Strong password", color: "green" };
-    if (mediumRegex.test(password)) return { label: "Moderate password", color: "orange" };
+    if (strong.test(password)) return { label: "Strong password", color: "green" };
+    if (medium.test(password)) return { label: "Moderate password", color: "orange" };
     return { label: "Weak password", color: "red" };
   };
 
@@ -163,7 +156,7 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
 
   const triggerFileSelect = () => fileInputRef.current?.click();
 
-  // Create user
+  // ✅ Create user → Assign license → Upload photo
   const createUser = async () => {
     setError(null);
     if (!formData.firstName || !formData.lastName || !formData.username || !formData.password) {
@@ -175,7 +168,7 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
       return;
     }
     if (passwordStrength.color !== "green") {
-      setError("Please choose a strong password before creating user.");
+      setError("Please choose a strong password.");
       return;
     }
 
@@ -184,6 +177,7 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
       const mailNickname = formData.username.toLowerCase();
       const userPrincipalName = `${mailNickname}@${verifiedDomain}`;
 
+      // 1️⃣ Create User
       const userPayload = {
         accountEnabled: true,
         displayName: `${formData.firstName} ${formData.lastName}`,
@@ -208,23 +202,68 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
       const user = await graphClient.api("/users").post(userPayload);
       console.log("✅ User created:", user);
 
+      // 2️⃣ Assign License
+      if (formData.license) {
+        try {
+          await graphClient.api(`/users/${user.id}/assignLicense`).post({
+            addLicenses: [{ skuId: formData.license }],
+            removeLicenses: [],
+          });
+          console.log("✅ License assigned successfully");
+        } catch (licenseError) {
+          console.error("⚠️ License assignment failed:", licenseError);
+        }
+      }
+
+      // 3️⃣ Upload Photo (with retry)
       if (formData.photo) {
         const arrayBuffer = await formData.photo.arrayBuffer();
         const blob = new Blob([arrayBuffer], { type: formData.photo.type || "image/jpeg" });
-        await graphClient
-          .api(`/users/${user.id}/photo/$value`)
-          .header("Content-Type", blob.type)
-          .put(blob);
+
+        for (let attempt = 1; attempt <= 3; attempt++) {
+          try {
+            await new Promise((resolve) => setTimeout(resolve, attempt * 5000)); // 5s, 10s, 15s delay
+            await graphClient
+              .api(`/users/${user.id}/photo/$value`)
+              .header("Content-Type", blob.type)
+              .put(blob);
+            console.log(`✅ Photo uploaded successfully on attempt ${attempt}`);
+            break;
+          } catch (uploadError: any) {
+            console.warn(`⚠️ Attempt ${attempt} failed:`, uploadError.message || uploadError);
+            if (attempt === 3) console.error("❌ Photo upload failed after 3 retries.");
+          }
+        }
+      } else {
+        console.log("ℹ️ No profile photo selected — skipping upload.");
       }
 
-      if (formData.license) {
-        await graphClient.api(`/users/${user.id}/assignLicense`).post({
-          addLicenses: [{ skuId: formData.license }],
-          removeLicenses: [],
-        });
-      }
 
+      // ✅ Success
       alert(`✅ User created successfully: ${userPrincipalName}`);
+
+      // 🔄 Clear all fields after success
+      setFormData({
+        firstName: "",
+        lastName: "",
+        company: "",
+        jobTitle: "",
+        username: "",
+        password: "",
+        confirmPassword: "",
+        forcePasswordChange: true,
+        businessPhone: "",
+        mobilePhone: "",
+        fax: "",
+        address: "",
+        city: "",
+        license: "",
+        photo: null,
+      });
+      setPhotoPreview(null);
+      setPasswordStrength({ label: "", color: "" });
+      setUsernameAvailable(null);
+
     } catch (err: any) {
       console.error("❌ Error creating user:", err);
       setError("Error creating user. Check console or permissions.");
@@ -232,6 +271,7 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
       setLoading(false);
     }
   };
+
 
   const initials = `${(formData.firstName[0] || "").toUpperCase()}${(formData.lastName[0] || "").toUpperCase()}`;
 
@@ -244,15 +284,14 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
 
       {error && <div className={styles.errorBox}>❌ {error}</div>}
 
-      {/* Profile photo */}
+      {/* Profile Photo */}
       <Stack verticalAlign="center" horizontalAlign="center" className={styles.avatarSection}>
         <div className={styles.personaWrapper} onClick={triggerFileSelect}>
           <Persona
-            text=""
             imageUrl={photoPreview || undefined}
             imageInitials={initials || "FL"}
             size={PersonaSize.size100}
-            hidePersonaDetails={true}
+            hidePersonaDetails
           />
           <div className={styles.cameraOverlay}>
             <Icon iconName="Camera" className={styles.cameraIcon} />
@@ -291,27 +330,16 @@ const AdUserForm: React.FC<IAdUserFormProps> = ({ graphClient, onClose }) => {
             type={passwordVisible ? "text" : "password"}
             required
             onChange={(_, v) => handleChange("password", v || "")}
-            canRevealPassword={false}
           />
           <IconButton
             iconProps={{ iconName: passwordVisible ? "Hide" : "RedEye" }}
             onClick={() => setPasswordVisible(!passwordVisible)}
             className={styles.eyeIcon}
           />
-          {passwordStrength.label && (
-            <div style={{ color: passwordStrength.color, fontSize: "12px" }}>
-              {passwordStrength.label}
-            </div>
-          )}
+          {passwordStrength.label && <div style={{ color: passwordStrength.color, fontSize: "12px" }}>{passwordStrength.label}</div>}
         </div>
 
-
-        <TextField
-          label="Confirm Password"
-          type="password"
-          required
-          onChange={(_, v) => handleChange("confirmPassword", v || "")}
-        />
+        <TextField label="Confirm Password" type="password" required onChange={(_, v) => handleChange("confirmPassword", v || "")} />
       </div>
 
       <Toggle
