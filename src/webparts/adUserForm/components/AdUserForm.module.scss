@@ -1,73 +1,275 @@
-.card {
-  background-color: var(--neutralLighter);
-  color: var(--neutralPrimary);
-  border-radius: 10px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-  padding: 32px;
-  max-width: 900px;
-  margin: 40px auto;
-  transition: background-color 0.3s, color 0.3s;
+.shell {
+  font-family: "Segoe UI Variable", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  padding: 32px 20px 40px;
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 34%),
+    radial-gradient(circle at 85% 12%, rgba(45, 212, 191, 0.14), transparent 30%),
+    linear-gradient(180deg, #eef6ff 0%, #f7fbff 48%, #f5f7fb 100%);
+  position: relative;
+}
+
+.shell::before {
+  content: "";
+  position: absolute;
+  inset: 18px 18px auto auto;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(15, 108, 189, 0.14) 0%, rgba(15, 108, 189, 0) 72%);
+  pointer-events: none;
+}
+
+.surface {
+  position: relative;
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 30px;
+  border-radius: 28px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(255, 255, 255, 0.88);
+  box-shadow: 0 32px 72px rgba(15, 23, 42, 0.16);
+  backdrop-filter: blur(18px);
+  overflow: hidden;
+}
+
+.surface::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 4px;
+  background: linear-gradient(90deg, #0f6cbd 0%, #38bdf8 52%, #14b8a6 100%);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  align-items: start;
+  margin-bottom: 22px;
+}
+
+.heroMain {
+  align-self: start;
+  padding: 28px;
+  border-radius: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: linear-gradient(135deg, rgba(15, 108, 189, 0.1), rgba(20, 184, 166, 0.08));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #0f172a;
+}
+
+.heroBadgeIcon {
+  color: #0f6cbd;
 }
 
 .headerRow {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
+  align-items: flex-start;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.headerContent {
+  max-width: 680px;
 }
 
 .header {
-  font-size: 24px;
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.05;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.subheader {
+  margin: 12px 0 0;
+  font-size: 15px;
+  line-height: 1.7;
+  color: #475569;
+  max-width: 58ch;
+}
+
+.heroHighlights {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+  max-width: 360px;
+}
+
+.heroHighlightItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-width: 0;
+}
+
+.heroHighlightBullet {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 10px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0f6cbd 0%, #14b8a6 100%);
+  box-shadow: 0 0 0 5px rgba(15, 108, 189, 0.08);
+}
+
+.heroHighlightText {
+  min-width: 0;
+}
+
+.heroHighlightLabel {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.heroHighlightValue {
+  margin-top: 6px;
+  font-size: 18px;
+  line-height: 1.45;
+  font-weight: 700;
+  color: #0f172a;
+  overflow-wrap: anywhere;
+}
+
+.previewCard {
+  position: relative;
+  align-self: start;
+  padding: 24px;
+  border-radius: 24px;
+  background: linear-gradient(165deg, #0f172a 0%, #13263f 52%, #154c79 100%);
+  color: #ffffff;
+  box-shadow: 0 26px 58px rgba(15, 23, 42, 0.24);
+  overflow: hidden;
+}
+
+.previewCard::before,
+.previewCard::after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.previewCard::before {
+  width: 180px;
+  height: 180px;
+  top: -72px;
+  right: -72px;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.34) 0%, rgba(56, 189, 248, 0) 72%);
+}
+
+.previewCard::after {
+  width: 150px;
+  height: 150px;
+  bottom: -58px;
+  left: -44px;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.24) 0%, rgba(20, 184, 166, 0) 74%);
+}
+
+.previewHeader,
+.previewProfile,
+.photoButton,
+.progressBlock,
+.previewMetaGrid {
+  position: relative;
+  z-index: 1;
+}
+
+.previewHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.previewEyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.previewCompletion {
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.12);
+  font-size: 12px;
   font-weight: 600;
 }
 
-.errorBox {
-  background-color: #fde7e9;
-  color: #a4262c;
-  border-left: 4px solid #d83b01;
-  padding: 10px 16px;
-  border-radius: 4px;
-  margin-bottom: 20px;
-}
-
-/* Message Bars */
-.ms-MessageBar {
-  margin-bottom: 16px;
-  border-radius: 6px;
-}
-
-.avatarSection {
-  text-align: center;
-  margin-bottom: 20px;
+.previewProfile {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 20px;
 }
 
 .personaWrapper {
   position: relative;
-  display: inline-block;
+  width: 124px;
+  height: 124px;
+  flex: 0 0 124px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
   overflow: hidden;
-  border: 2px solid var(--themePrimary);
+  border: 2px solid rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 16px 34px rgba(15, 23, 42, 0.24);
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .personaWrapper:hover {
-  transform: scale(1.05);
+  transform: translateY(-1px);
+  box-shadow: 0 18px 36px rgba(15, 23, 42, 0.28);
+}
+
+.personaWrapper :global(.ms-Persona),
+.personaWrapper :global(.ms-Persona-coin),
+.personaWrapper :global(.ms-Persona-imageArea),
+.personaWrapper :global(.ms-Persona-image),
+.personaWrapper :global(.ms-Persona-initials) {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 50%;
 }
 
 .cameraOverlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 28px;
-  background: rgba(0, 0, 0, 0.5);
-  color: white;
+  inset: auto 0 0 0;
+  height: 34px;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0) 0%, rgba(15, 23, 42, 0.88) 100%);
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 
 .personaWrapper:hover .cameraOverlay {
@@ -78,101 +280,496 @@
   font-size: 16px;
 }
 
-.photoLabel {
-  margin-top: 8px;
-  font-weight: 500;
+.previewIdentity {
+  min-width: 0;
+}
+
+.previewName {
+  font-size: 26px;
+  line-height: 1.08;
+  font-weight: 700;
+}
+
+.previewEmail {
+  margin-top: 6px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.74);
+  word-break: break-word;
+}
+
+.photoButton {
+  width: 100%;
+  margin-top: 18px;
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.photoButton:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.photoButton :global(.ms-Button-label) {
+  color: #ffffff;
 }
 
 .hiddenInput {
   display: none;
 }
 
+.progressBlock {
+  margin-top: 20px;
+}
+
+.progressBlock :global(.ms-ProgressIndicator) {
+  padding: 0;
+}
+
+.progressBlock :global(.ms-Label) {
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 13px;
+}
+
+.progressBlock :global(.ms-ProgressIndicator-itemProgress) {
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.progressBlock :global(.ms-ProgressIndicator-progressBar) {
+  border-radius: 999px;
+  background: linear-gradient(90deg, #38bdf8 0%, #2dd4bf 100%);
+}
+
+.previewMetaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.previewMetaItem {
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.09);
+  backdrop-filter: blur(8px);
+}
+
+.previewMetaLabel {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.previewMetaValue {
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 600;
+  color: #ffffff;
+  word-break: break-word;
+}
+
+.messageStack {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.messageStack :global(.ms-MessageBar) {
+  border-radius: 16px;
+}
+
+.sectionGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.sectionCard {
+  display: flex;
+  flex-direction: column;
+  align-self: start;
+  padding: 24px;
+  border-radius: 24px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: linear-gradient(180deg, #ffffff 0%, #f9fbff 100%);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+}
+
+.sectionCardWide {
+  grid-column: 1 / -1;
+}
+
+.sectionCard :global(.ms-Label) {
+  margin-bottom: 8px;
+  color: #0f172a;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sectionCard :global(.ms-TextField-fieldGroup),
+.sectionCard :global(.ms-Dropdown-title) {
+  width: 100%;
+  min-height: 48px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.28);
+  background: #ffffff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.sectionCard :global(.ms-Dropdown-title) {
+  display: flex;
+  align-items: center;
+}
+
+.sectionCard :global(.ms-TextField-suffix) {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 16px;
+  border-top-right-radius: 14px;
+  border-bottom-right-radius: 14px;
+  background: #f8fafc;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sectionCard :global(.ms-TextField-fieldGroup:hover),
+.sectionCard :global(.ms-Dropdown-title:hover) {
+  border-color: rgba(15, 108, 189, 0.42);
+}
+
+.sectionCard :global(.ms-TextField-fieldGroup:focus-within),
+.sectionCard :global(.ms-Dropdown:focus-within .ms-Dropdown-title) {
+  border-color: #0f6cbd;
+  box-shadow: 0 0 0 4px rgba(15, 108, 189, 0.12);
+}
+
+.sectionCard :global(.ms-TextField-field),
+.sectionCard :global(.ms-Dropdown-title),
+.sectionCard :global(textarea) {
+  color: #0f172a;
+  font-size: 15px;
+}
+
+.sectionCard :global(.ms-Dropdown-titleIsPlaceHolder),
+.sectionCard :global(.ms-TextField-field::placeholder),
+.sectionCard :global(textarea::placeholder) {
+  color: #94a3b8;
+}
+
+.sectionCard :global(.ms-TextField-field) {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.sectionCard :global(textarea) {
+  line-height: 1.6;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.sectionIcon {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(15, 108, 189, 0.16) 0%, rgba(45, 212, 191, 0.16) 100%);
+  color: #0f6cbd;
+  font-size: 18px;
+}
+
+.sectionEyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #64748b;
+}
+
+.sectionTitle {
+  margin: 6px 0 0;
+  font-size: 21px;
+  line-height: 1.2;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sectionDescription {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #64748b;
+}
+
 .formGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px 24px;
-  margin-bottom: 20px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 20px;
+  align-items: start;
+}
+
+.fieldBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+
+.fullSpan {
+  grid-column: 1 / -1;
+}
+
+.inlineStatusRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.statusPill {
+  display: inline-flex;
+  align-items: center;
+  max-width: 100%;
+  padding: 10px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 700;
+}
+
+.statusNeutral {
+  color: #334155;
+  background: #e2e8f0;
+}
+
+.statusSuccess {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.statusWarning {
+  color: #9a3412;
+  background: #ffedd5;
+}
+
+.statusDanger {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.helperText {
+  flex: 1 1 240px;
+  min-width: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #64748b;
 }
 
 .passwordField {
   position: relative;
-
-  /* make sure internal wrapper has room for icon */
-  .ms-TextField-fieldGroup {
-    position: relative !important;
-  }
-
-  /* prevent text from going under the icon */
-  .ms-TextField-field {
-    padding-right: 40px !important;
-  }
 }
 
-/* 👁️ Align perfectly inside input */
+.passwordField :global(.ms-TextField-field) {
+  padding-right: 44px;
+}
+
 .eyeIcon {
   position: absolute;
-  right: 12px;
-  top: calc(50% + 8px); /* adjusts for label spacing in FluentUI */
-  transform: translateY(-50%);
-  background: none !important;
-  border: none !important;
-  color: var(--neutralPrimary);
-  cursor: pointer;
-  z-index: 3;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 24px;
-  width: 24px;
-  pointer-events: auto;
+  top: 33px;
+  right: 10px;
+  z-index: 2;
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  color: #475569;
 }
 
 .eyeIcon:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  border-radius: 4px;
+  background: rgba(15, 23, 42, 0.06);
 }
 
-
-
-
-.sectionLabel {
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 16px;
+.toggleRow {
+  margin-top: 20px;
+  padding: 16px 18px 14px;
+  border-radius: 18px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
 }
 
-.licenseRow {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  align-items: center;
+.toggleRow :global(.ms-Toggle) {
+  margin: 0;
+}
+
+.toggleRow .helperText {
+  flex: 0 0 auto;
+}
+
+.actionBar {
+  margin-top: 24px;
+  padding: 24px 4px 4px;
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 18px;
+}
+
+.actionHint {
+  max-width: 54ch;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #475569;
 }
 
 .buttonRow {
-  margin-top: 32px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
-.spinnerContainer {
+.loadingOverlay {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
   display: flex;
   justify-content: center;
-  margin-top: 20px;
+  align-items: center;
+  padding: 24px;
+  background: rgba(241, 245, 249, 0.72);
+  backdrop-filter: blur(6px);
 }
 
-/* Dark mode */
-:global(.ms-Fabric.is-darkTheme) .card {
-  background-color: var(--neutralLighterAlt);
-  color: var(--neutralPrimaryAlt);
-  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.1);
+.loadingCard {
+  padding: 28px 32px;
+  border-radius: 22px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.14);
+}
+
+:global(.ms-Fabric.is-darkTheme) .shell {
+  background:
+    radial-gradient(circle at top left, rgba(56, 189, 248, 0.18), transparent 32%),
+    radial-gradient(circle at 85% 12%, rgba(45, 212, 191, 0.16), transparent 28%),
+    linear-gradient(180deg, #0f172a 0%, #111827 56%, #0b1220 100%);
+}
+
+:global(.ms-Fabric.is-darkTheme) .surface,
+:global(.ms-Fabric.is-darkTheme) .sectionCard,
+:global(.ms-Fabric.is-darkTheme) .heroMain,
+:global(.ms-Fabric.is-darkTheme) .loadingCard {
+  border-color: rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.84);
+  box-shadow: 0 24px 54px rgba(2, 6, 23, 0.4);
+}
+
+:global(.ms-Fabric.is-darkTheme) .header,
+:global(.ms-Fabric.is-darkTheme) .sectionTitle,
+:global(.ms-Fabric.is-darkTheme) .sectionCard :global(.ms-Label),
+:global(.ms-Fabric.is-darkTheme) .sectionCard :global(.ms-TextField-field),
+:global(.ms-Fabric.is-darkTheme) .sectionCard :global(.ms-Dropdown-title) {
+  color: #e2e8f0;
+}
+
+:global(.ms-Fabric.is-darkTheme) .subheader,
+:global(.ms-Fabric.is-darkTheme) .heroHighlightLabel,
+:global(.ms-Fabric.is-darkTheme) .sectionEyebrow,
+:global(.ms-Fabric.is-darkTheme) .sectionDescription,
+:global(.ms-Fabric.is-darkTheme) .helperText,
+:global(.ms-Fabric.is-darkTheme) .actionHint {
+  color: #94a3b8;
+}
+
+:global(.ms-Fabric.is-darkTheme) .heroHighlightValue {
+  color: #e2e8f0;
+}
+
+:global(.ms-Fabric.is-darkTheme) .toggleRow,
+:global(.ms-Fabric.is-darkTheme) .heroBadge,
+:global(.ms-Fabric.is-darkTheme) .previewMetaItem {
+  border-color: rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 42, 0.72);
+}
+
+:global(.ms-Fabric.is-darkTheme) .sectionCard :global(.ms-TextField-fieldGroup),
+:global(.ms-Fabric.is-darkTheme) .sectionCard :global(.ms-Dropdown-title) {
+  border-color: rgba(148, 163, 184, 0.22);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+:global(.ms-Fabric.is-darkTheme) .sectionCard :global(.ms-TextField-suffix) {
+  background: rgba(30, 41, 59, 0.92);
+  color: #cbd5e1;
+}
+
+:global(.ms-Fabric.is-darkTheme) .loadingOverlay {
+  background: rgba(2, 6, 23, 0.6);
+}
+
+@media (max-width: 1024px) {
+  .hero {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 768px) {
-  .formGrid,
-  .licenseRow {
+  .shell {
+    padding: 20px 12px 28px;
+  }
+
+  .surface {
+    padding: 18px;
+    border-radius: 22px;
+  }
+
+  .headerRow,
+  .actionBar,
+  .previewProfile {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sectionHeading {
+    min-height: 0;
+  }
+
+  .header {
+    font-size: 28px;
+  }
+
+  .heroHighlights,
+  .previewMetaGrid,
+  .sectionGrid,
+  .formGrid {
     grid-template-columns: 1fr;
   }
 
-  .card {
-    padding: 20px;
+  .buttonRow {
+    width: 100%;
+    justify-content: stretch;
+  }
+
+  .buttonRow > * {
+    flex: 1 1 160px;
   }
 }
